@@ -1,9 +1,7 @@
-public class Canteen {
-    public static void main(String[] args) {
-        printMenu();
-    }
+//import java.util.Scanner;
 
-    public static void printMenu() {
-        System.out.println("=====\tMenu\t=====");
+public class Canteen{
+    public static void main(String[] args){
+        
     }
 }
