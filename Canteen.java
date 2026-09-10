@@ -109,14 +109,14 @@ public class Canteen{
         return getItemValue;
     }
 
-    //Calculate the subtotal of the order
+    //Method to calculate the subtotal of the order
     public static Double calculateSubtotal(Double itemValueRecord, Integer itemQuantity){
         Double Subtotal = itemValueRecord * itemQuantity;
 
         return Subtotal;
     }
 
-    //Calculate the applied discount
+    //Method to calculate the applied discount
     public static Double studentDiscount(Boolean studentConfirmation, Double calculatedSubtotal){
         Double subtotalDiscount;
         if (studentConfirmation){
@@ -131,6 +131,7 @@ public class Canteen{
         return subtotalDiscount;
     }
 
+    //Method to print the order summary
     public static void orderSummary(Integer totalItemNumber, Double totalBeforeDiscount, Double totalDiscountAmount, Double totalAfterDiscount){
         System.out.printf("==== %-5s ====%n", "ORDER SUMMARY");
         System.out.printf("Total items: %n", totalItemNumber);
