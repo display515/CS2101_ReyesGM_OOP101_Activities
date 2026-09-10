@@ -9,7 +9,7 @@ public class Canteen{
         
         public foodCostAmount(){
             foodCost = new HashMap<>();
-            foodCost.put("Burger", 8.99);
+            foodCost.put("Burger", 80.00);
             foodCost.put("Pizza", 120.00);
             foodCost.put("Pasta", 100.00);
             foodCost.put("Sandwich", 70.00);
@@ -20,26 +20,60 @@ public class Canteen{
     //Running the whole code via methods and user inputs
     public static void main(String[] args){
 
-        Integer itemNumber, itemQuantity;
-        Boolean studentConfirmation;
+        Integer itemNumber, itemQuantity, totalItemNumber = 0;
+        Boolean studentConfirmation, continueOrder;
+        Character confirmationAnswer, anotherOrder;
+        Double calculatedSubtotal = 0.00, totalBeforeDiscount = 0.00, 
+        totalDiscount = 0.00, totalAfterDiscount = 0.00, itemValueRecord, totalDiscountAmount = 0.00;
         
         printMenu();
-
-        try (Scanner userInput = new Scanner(System.in)){
-
+            try (Scanner userInput = new Scanner(System.in)){
+            do{
             System.out.print("Enter item number: ");
             itemNumber = userInput.nextInt();
-            Double itemValueRecord = recordOrder(itemNumber);
-            
+            itemValueRecord = recordOrder(itemNumber);
+                
             System.out.print("Enter item quantity: ");
             itemQuantity = userInput.nextInt();
-            Double calculatedSubtotal = calculateSubtotal(itemValueRecord, itemQuantity);
 
-            System.out.print("Are you a student? (Y/N): ");
-            studentConfirmation = userInput.nextBoolean();
-            studentDiscount(studentConfirmation, calculatedSubtotal);
+            if(itemNumber <= 5){
+                calculatedSubtotal = calculateSubtotal(itemValueRecord, itemQuantity);
+                do{
+                System.out.print("Are you a student? (Y/N): ");
+                confirmationAnswer = userInput.next().charAt(0);
+                if (Character.toUpperCase(confirmationAnswer) != 'Y' && Character.toUpperCase(confirmationAnswer) != 'N') {
+                    System.out.println("Invalid answer.\n");
+                    }
+                }while((Character.toUpperCase(confirmationAnswer) != 'Y') && (Character.toUpperCase(confirmationAnswer) != 'N'));
+                studentConfirmation = (Character.toUpperCase(confirmationAnswer) == 'Y');
+
+                totalDiscount = studentDiscount(studentConfirmation, calculatedSubtotal);
+                System.out.printf("%nSubtotal: %.2f%n", calculatedSubtotal);
+                System.out.printf("Discount: %.2f%n", totalDiscount);
+                System.out.printf("Order total: %.2f%n", (calculatedSubtotal - totalDiscount));
+            }else{
+                System.out.println("");
+                System.out.println("Invalid order! Please enter a valid item and quantity.\n");
             }
+
+            totalItemNumber += itemQuantity;
+            totalBeforeDiscount += calculatedSubtotal;
+            totalDiscountAmount += totalDiscount;
+            totalAfterDiscount = totalBeforeDiscount - totalDiscountAmount;
+
+            do{
+            System.out.print("\nDo you want to order again? (Y/N): ");
+            anotherOrder = userInput.next().charAt(0);
+            if((Character.toUpperCase(anotherOrder)) != 'Y' && (Character.toUpperCase(anotherOrder) != 'N')){
+                System.out.println("Invalid answer.");
+            }
+            }while((Character.toUpperCase(anotherOrder) != 'Y') && (Character.toUpperCase(anotherOrder) != 'N'));
+            continueOrder = (Character.toUpperCase(anotherOrder) == 'Y');
+            System.out.println(" ");
+            }while(continueOrder); 
+        orderSummary(totalItemNumber, totalBeforeDiscount, totalDiscountAmount, totalAfterDiscount);
         }
+    }
 
     //Method for printing the menu
     public static void printMenu(){
@@ -70,7 +104,7 @@ public class Canteen{
             case 4 -> getMenuClass.foodCost.get("Sandwich");
             case 5 -> getMenuClass.foodCost.get("Milktea");
 
-            default -> null;            
+            default -> 0.00;            
         };
         return getItemValue;
     }
@@ -92,9 +126,18 @@ public class Canteen{
                 subtotalDiscount = calculatedSubtotal * 0.10;
             }
         }else{
-            subtotalDiscount = calculatedSubtotal;
+            subtotalDiscount = 0.00;
         }
         return subtotalDiscount;
+    }
+
+    public static void orderSummary(Integer totalItemNumber, Double totalBeforeDiscount, Double totalDiscountAmount, Double totalAfterDiscount){
+        System.out.printf("==== %-5s ====%n", "ORDER SUMMARY");
+        System.out.printf("Total items: %n", totalItemNumber);
+        System.out.printf("Total before discount: $%.2f%n", totalBeforeDiscount);
+        System.out.printf("Total discount: $%.2f%n", totalDiscountAmount);
+        System.out.printf("Final amount: $%.2f%n", totalAfterDiscount);
+        System.out.println("Thank you for ordering!");
     }
 }  
 
