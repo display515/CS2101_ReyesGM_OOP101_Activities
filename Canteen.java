@@ -1,14 +1,14 @@
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Canteen{
     //Initializing the foods for menu
     private static class foodCostAmount{
-        private final HashMap<String, Double> foodCost;
+        private final LinkedHashMap<String, Double> foodCost;
         
         public foodCostAmount(){
-            foodCost = new HashMap<>();
+            foodCost = new LinkedHashMap<>();
             foodCost.put("Burger", 80.00);
             foodCost.put("Pizza", 120.00);
             foodCost.put("Pasta", 100.00);
@@ -36,7 +36,7 @@ public class Canteen{
             System.out.print("Enter item quantity: ");
             itemQuantity = userInput.nextInt();
 
-            if(itemNumber <= 5){
+            if(itemNumber >= 1 && itemNumber <= 5 && itemQuantity > 0){
                 calculatedSubtotal = calculateSubtotal(itemValueRecord, itemQuantity);
                 do{
                 System.out.print("Are you a student? (Y/N): ");
@@ -134,11 +134,10 @@ public class Canteen{
     //Method to print the order summary
     public static void orderSummary(Integer totalItemNumber, Double totalBeforeDiscount, Double totalDiscountAmount, Double totalAfterDiscount){
         System.out.printf("==== %-5s ====%n", "ORDER SUMMARY");
-        System.out.printf("Total items: %n", totalItemNumber);
+        System.out.printf("Total items: %d%n", totalItemNumber);
         System.out.printf("Total before discount: $%.2f%n", totalBeforeDiscount);
         System.out.printf("Total discount: $%.2f%n", totalDiscountAmount);
         System.out.printf("Final amount: $%.2f%n", totalAfterDiscount);
         System.out.println("Thank you for ordering!");
     }
 }  
-
