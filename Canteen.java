@@ -30,19 +30,21 @@ public class Canteen{
             System.out.print("Enter item number: ");
             itemNumber = userInput.nextInt();
             Double itemValueRecord = recordOrder(itemNumber);
-
+            
             System.out.print("Enter item quantity: ");
             itemQuantity = userInput.nextInt();
             Double calculatedSubtotal = calculateSubtotal(itemValueRecord, itemQuantity);
 
             System.out.print("Are you a student? (Y/N): ");
             studentConfirmation = userInput.nextBoolean();
-  
+            studentDiscount(studentConfirmation, calculatedSubtotal);
             }
         }
 
     //Method for printing the menu
     public static void printMenu(){
+        Integer totalAmount = 1;
+
         System.out.printf("==== %-12s ====%n", "   M E N U");
         
         foodCostAmount getMenuClass = new foodCostAmount();
@@ -50,7 +52,6 @@ public class Canteen{
         for(Map.Entry<String, Double> entry : getMenuClass.foodCost.entrySet()) {
             String getFood = entry.getKey();
             Double getPrice = entry.getValue();
-            Integer totalAmount = 1;
             System.out.printf("%d. %-10s - $%.2f%n", totalAmount, getFood, getPrice);
             totalAmount++;
         }
@@ -79,6 +80,21 @@ public class Canteen{
         Double Subtotal = itemValueRecord * itemQuantity;
 
         return Subtotal;
+    }
+
+    //Calculate the applied discount
+    public static Double studentDiscount(Boolean studentConfirmation, Double calculatedSubtotal){
+        Double subtotalDiscount;
+        if (studentConfirmation){
+            if (calculatedSubtotal > 500.00){
+                subtotalDiscount = calculatedSubtotal * 0.15;
+            }else{
+                subtotalDiscount = calculatedSubtotal * 0.10;
+            }
+        }else{
+            subtotalDiscount = calculatedSubtotal;
+        }
+        return subtotalDiscount;
     }
 }  
 
