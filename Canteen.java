@@ -23,8 +23,8 @@ public class Canteen{
         Integer itemNumber, itemQuantity, totalItemNumber = 0;
         Boolean studentConfirmation, continueOrder;
         Character confirmationAnswer, anotherOrder;
-        Double calculatedSubtotal = 0.00, totalBeforeDiscount = 0.00, 
-        totalDiscount = 0.00, totalAfterDiscount = 0.00, itemValueRecord, totalDiscountAmount = 0.00;
+        Double calculatedSubtotal, totalBeforeDiscount = 0.00, 
+        totalDiscount, totalAfterDiscount = 0.00, itemValueRecord, totalDiscountAmount = 0.00;
         
         printMenu();
             try (Scanner userInput = new Scanner(System.in)){
@@ -51,15 +51,15 @@ public class Canteen{
                 System.out.printf("%nSubtotal: %.2f%n", calculatedSubtotal);
                 System.out.printf("Discount: %.2f%n", totalDiscount);
                 System.out.printf("Order total: %.2f%n", (calculatedSubtotal - totalDiscount));
+
+                totalItemNumber += itemQuantity;
+                totalBeforeDiscount += calculatedSubtotal;
+                totalDiscountAmount += totalDiscount;
+                totalAfterDiscount = totalBeforeDiscount - totalDiscountAmount;
             }else{
                 System.out.println("");
-                System.out.println("Invalid order! Please enter a valid item and quantity.\n");
+                System.out.println("Invalid order! Please enter a valid item and quantity.");
             }
-
-            totalItemNumber += itemQuantity;
-            totalBeforeDiscount += calculatedSubtotal;
-            totalDiscountAmount += totalDiscount;
-            totalAfterDiscount = totalBeforeDiscount - totalDiscountAmount;
 
             do{
             System.out.print("\nDo you want to order again? (Y/N): ");
